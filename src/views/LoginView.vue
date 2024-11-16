@@ -34,8 +34,9 @@ function select() {
 
 </script>
 
+
 <template>
-   <div class="w-full px-2 py-16 sm:px-0">
+   <div class="w-full px-2 py-2 sm:px-0">
     <TabGroup>
         <!-- Tabs -->
         <TabList

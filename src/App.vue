@@ -6,11 +6,12 @@ import { useThemeStore } from '@/stores/ThemeStore'
 const useStore = useThemeStore() 
 const theme =  reactive(useStore)
 
+
 </script>
 
 <template>
   <div v-bind:class="theme.isDark ? 'dark' : ''" class="wrapper transition ease-linear">
-    <div class="btn-wrapper">
+    <div class="btn-wrapper z-10">
       <div class="toggle-btn flex items-center justify-center w-full my-4">
         <label for="toggle" class="flex items-center justify-center cursor-pointer">
           <div class="relative">
@@ -32,9 +33,9 @@ const theme =  reactive(useStore)
       </div>
     </div>
     <div v-bind:class="theme.isDark ? 'dark' : ''" class="img min-h-screen flex flex-col items-center transition"></div>
-    <div class="todo flex-1 lg:w-2/3 xl:w-2/5 w-full px-7">
-      <RouterView />
-    </div>
+      <div class="todo lg:w-2/3 xl:w-2/5 w-full px-7">
+        <RouterView />
+      </div>
   </div>
   <div class="absolute bottom-0 w-full h-20 flex flex-col justify-center items-center bg-slate-500 text-xl font-semibold">
     <div class="unknowncode"><span class="font-light mx-2">by</span>unknown<span class="text-gray-200 font-normal">code</span>44</div>
@@ -71,6 +72,7 @@ const theme =  reactive(useStore)
 .btn-wrapper {
   position: absolute;
   right: 16px;
+
 }
 
 input:checked~.dot {
@@ -88,9 +90,9 @@ input:checked~.dot {
 
 .todo {
   position: fixed;
-  top: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-50%);
   z-index: 1000;
 }
 </style>
