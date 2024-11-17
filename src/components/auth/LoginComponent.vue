@@ -48,6 +48,7 @@ async function loginWithCredentials() {
             <p v-show="!sesion.loading" class="my-auto p-0 text-center">Ingresar</p>
             <SpinnerComponent v-show="sesion.loading" class="my-auto"/>
         </button>
+        <small v-if="sesion.error===''? false:true" class="text-center text-red-500 text-sm">{{ sesion.error }}</small>
     </form>
 </template>
 

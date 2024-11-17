@@ -67,6 +67,7 @@ export const useSesionStore = defineStore({
                     router.push('/tasks')
                 }
             } catch (e) {
+                this.loading = false
                 // si tenemos errores los manejamos por consola y actualizamos nuestro estado con el error
                 console.error('[AUTH-API 🔑] Error al loggear al usuario', e)
                 this.error = e!.toString()
