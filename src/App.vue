@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { MoonIcon, SunIcon, LinkIcon } from '@heroicons/vue/24/solid'
 import { useThemeStore } from '@/stores/ThemeStore'
+import { useSesionStore } from '@/stores/AuthSesionStore'
 
 const useStore = useThemeStore() 
 const theme =  reactive(useStore)
+
+const sesionStore = useSesionStore()
+const sesion = reactive(sesionStore)
+
+
 
 
 </script>
@@ -30,6 +37,13 @@ const theme =  reactive(useStore)
             {{ theme.mode }}
           </div>
         </label>
+      </div>
+    </div>
+    <div v-show="sesion.data?.user?.email===undefined? false : true" class="btn-wrapper-left z-10">
+      <div class="toggle-btn flex items-center justify-center w-full my-4">
+        <button @click="sesion.logout" :class="theme.isDark ? 'hover:bg-blue-100 focus:ring-blue-200 bg-blue-50' : 'hover:bg-blue-100'" class="w-full text-dark bg-blue-50 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-5 py-3 text-center min-h-[32px]">
+          Cerrar Sesion
+        </button>
       </div>
     </div>
     <div v-bind:class="theme.isDark ? 'dark' : ''" class="img min-h-screen flex flex-col items-center transition"></div>
@@ -73,6 +87,11 @@ const theme =  reactive(useStore)
   position: absolute;
   right: 16px;
 
+}
+
+.btn-wrapper-left {
+  position: absolute;
+  left: 16px;
 }
 
 input:checked~.dot {

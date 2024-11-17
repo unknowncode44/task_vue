@@ -2,7 +2,7 @@
 // importar reactive
 // importar themeStore
 // importart taskStore
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useThemeStore } from '@/stores/ThemeStore';
 import { useTaskStore } from '@/stores/TaskStore'
 
@@ -12,6 +12,8 @@ import type {Task} from '@/models/TaskModel'
 // iconos
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import { CheckCircleIcon as CompletedIcon } from '@heroicons/vue/24/solid'
+
+import SpinnerComponent from '@/components/SpinnerComponent.vue'
 
 
 // definir variable para almacenar useThemeStore
@@ -24,6 +26,7 @@ const theme = reactive(themeStore)
 const taskStore = useTaskStore()
 const tasks = reactive(taskStore)
 
+tasks.getAllTasks()
 
 </script>
 
@@ -33,7 +36,10 @@ const tasks = reactive(taskStore)
         
         <div class="px-6 py-4">
             <div class="font-bold text-xl mb-2">
-                Mis Tareas
+                <span class="flex flex-row justify-start">
+                    Mis Tareas
+                    <SpinnerComponent v-show="tasks.loading"/>
+                </span>
             </div>
         </div>
 

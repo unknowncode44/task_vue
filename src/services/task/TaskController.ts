@@ -10,27 +10,27 @@ import type { TaskApiResponse } from "@/models/TaskApiResponseModel";
 
 // post create task
 export async function createTask(task: CreateTask) {
-    return await apiInstance.post<APIResponse<TaskApiResponse>>('/task', task)
+    return await apiInstance.post<TaskApiResponse>('/todo', task)
 }
 
 // get all tasks
 export async function getTasks() {
-    return await apiInstance.get<APIResponse<TaskApiResponse[]>>('/task')
+    return await apiInstance.get<TaskApiResponse[]>('/todo')
 }
 
 // get single task
 export async function getTask(id: number) {
-    return await apiInstance.get<APIResponse<TaskApiResponse>>(`/task/${id}`)
+    return await apiInstance.get<TaskApiResponse>(`/todo/${id}`)
 }
 
-// put update task
+// patch update task
 export async function updateTask(id: number, task: CreateTask) {
-    return await apiInstance.put<APIResponse<TaskApiResponse>>(`/task/${id}`, task)
+    return await apiInstance.patch<TaskApiResponse>(`/todo/${id}`, task)
 }
 
 // delete task
 export function deleteTask(id: number) {
-    return apiInstance.delete(`/task/${id}`)
+    return apiInstance.delete(`/todo/${id}`)
 }
 
 

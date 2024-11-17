@@ -1,6 +1,3 @@
-// TODO: RENOVAR TOKEN
-
-
 import { defineStore } from "pinia";
 // utilizaremos router para navegar a la pagina de tareas cuando nos hayamos loggeado
 import router from "@/router";
@@ -31,7 +28,7 @@ export const useSesionStore = defineStore({
         changeCrsfToken() {
             const headers = apiInstance.defaults.headers // obtenemos los headers de nuestra instancia apiInstance
             this.data!.crsfToken = headers["csrf-token"]?.toString() // pareaseamos a string el token y actualizamos el estado
-            console.info('[SesionStore] CRSF Token Actualizado') // noficamos por consola
+            console.info('[Sesion Store 🔑] CRSF Token Actualizado') // noficamos por consola
         },
 
         // accion asincrona para registrar un nuevo usuario
@@ -42,13 +39,13 @@ export const useSesionStore = defineStore({
 
                 if(response.status === 201) {
                     this.data!.user = userData // si la respuesta es exitosa, actualizamos el estado con el usuario
-                    console.info('[Sesion Store] Usuario Creado, codigo de respuesta: '+response.status)
+                    console.info('[AUTH-API 🔑] Usuario Creado, codigo de respuesta: '+response.status)
                     this.login(userData) // luego corremos nuestro metodo login para logearlo directamente
                     this.loading = false // detenemos la carga
                 }
             } catch (e) {
                 // si tenemos errores los manejamos por consola y actualizamos nuestro estado con el error
-                console.error('[Sesion Store] Error al registrar usuario', e)
+                console.error('[AUTH-API 🔑] Error al registrar usuario', e)
                 this.error = e!.toString()
             }
         },
@@ -63,14 +60,55 @@ export const useSesionStore = defineStore({
                     this.data!.user = userData // si la respuesta es exitosa, actualizamos el estado con el usuario
                     const currentEpochTime = Math.floor(Date.now() / 1000) // obtenemos la fecha actual
                     this.data!.jwtExpires = currentEpochTime + 3 * 60 // nuestro token vence en tres minutos, actualizamos el estado
-                    console.info('[Sesion Store] Usuario Logeado, codigo de respuesta: '+response.status)
-                    console.info('[Sesion Store] Ruteando a Tareas')
+                    console.info('[AUTH-API 🔑] Usuario Logeado, codigo de respuesta: '+response.status)
+                    console.info('[Sesion Store 🔑] Ruteando a Tareas')
+                    this.renewToken() // renovamos el token cada tres minutos
                     this.loading = false
                     router.push('/tasks')
                 }
             } catch (e) {
                 // si tenemos errores los manejamos por consola y actualizamos nuestro estado con el error
-                console.error('[Sesion Store] Error al loggear al usuario', e)
+                console.error('[AUTH-API 🔑] Error al loggear al usuario', e)
+                this.error = e!.toString()
+            }
+        },
+
+        // funcion recursiva nos ayuda a renovar el token cada 3min
+        renewToken() {
+            console.info('[Sesion Store 🔑] Renovando el token en 3 min')
+            setTimeout( async () => {
+                try {
+                    const response = await API.Login({email: this.data!.user!.email, password: this.data!.user!.password})
+                    if(response.status === 200) {
+                        const currentEpochTime = Math.floor(Date.now() / 1000) // obtenemos la fecha actual
+                        this.data!.jwtExpires = currentEpochTime + 3 * 60 // nuestro token vence en tres minutos, actualizamos el estado
+                        console.info('[AUTH-API 🔑] Token Renovado')
+                    }
+                } catch (e) {
+                    // si tenemos errores los manejamos por consola y actualizamos nuestro estado con el error
+                    console.error('[AUTH-API 🔑] Error al obtener el token', e)
+                    this.error = e!.toString()
+                }
+            }, 3 * 60 * 1000)
+
+            setTimeout(() => this.renewToken(), 3 * 60 * 1000)
+        },
+
+        async logout() {
+            this.loading = true
+            this.data!.user = undefined
+            this.data!.jwtExpires = undefined
+            try {
+                const response = await API.Logout()
+                if(response.status === 200) {
+                    console.info('[AUTH-API 🔑] Usuario Desconectado, codigo de respuesta: '+response.status)
+                    this.loading = false
+                    router.push('/')
+                }
+            } catch (e) {
+                // si tenemos errores los manejamos por consola y actualizamos nuestro estado con el error
+                console.error('[AUTH-API 🔑] Error al desconectar el usuario', e)
+                this.loading = false
                 this.error = e!.toString()
             }
         }

@@ -53,9 +53,9 @@ async function logCredentials() {
             <input v-model="rptPwd" :class="theme.isDark ? 'bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500' : 'bg-gray-50 border-gray-300 text-gray-900'" type="password" name="confirm-password" id="confirm-password" class=" border  text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="••••••••" required>
         </div>
         <div class="my-4"></div>
-        <button type="submit" :class="theme.isDark ? 'hover:bg-blue-700 focus:ring-blue-800 bg-blue-600' : 'hover:bg-blue-700'" class="w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-5 py-3 min-h-[54px] text-center">
-            <p v-show="!sesion.loading" class="m-0 p-0 text-center">Registrar</p>
-            <SpinnerComponent v-show="sesion.loading" />
+        <button type="submit" :class="theme.isDark ? 'hover:bg-blue-700 focus:ring-blue-800 bg-blue-600' : 'hover:bg-blue-700'" class="flex flex-row justify-center w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-5 py-3 text-center min-h-[54px]">
+            <p v-show="!sesion.loading" class="my-auto p-0 text-center">Registrar</p>
+            <SpinnerComponent v-show="sesion.loading" class="my-auto"/>
         </button>
     </form>
 </template>

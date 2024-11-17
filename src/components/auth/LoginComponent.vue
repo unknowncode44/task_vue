@@ -44,9 +44,9 @@ async function loginWithCredentials() {
         </div>
         <div class="py-9"></div>
         <div class="my-4"></div>
-        <button type="submit" :class="theme.isDark ? 'hover:bg-blue-700 focus:ring-blue-800 bg-blue-600' : 'hover:bg-blue-700'" class="w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-5 py-3 text-center min-h-[54px]">
-            <p v-show="!sesion.loading" class="m-0 p-0 text-center">Ingresar</p>
-            <SpinnerComponent v-show="sesion.loading" />
+        <button type="submit" :class="theme.isDark ? 'hover:bg-blue-700 focus:ring-blue-800 bg-blue-600' : 'hover:bg-blue-700'" class="flex flex-row justify-center w-full text-white bg-blue-600 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded text-sm px-5 py-3 text-center min-h-[54px]">
+            <p v-show="!sesion.loading" class="my-auto p-0 text-center">Ingresar</p>
+            <SpinnerComponent v-show="sesion.loading" class="my-auto"/>
         </button>
     </form>
 </template>
